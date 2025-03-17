@@ -38,17 +38,17 @@ const weapons = [
 ];
 const monsters = [
   {
-    name: "slime",
+    name: "Smol Slime",
     level: 2,
     health: 15,
   },
   {
-    name: "fanged beast",
+    name: "Fanged beast",
     level: 8,
     health: 60,
   },
   {
-    name: "dragon",
+    name: "Dragon",
     level: 20,
     health: 300,
   },
@@ -141,9 +141,20 @@ function buyHealth() {
     gold -= 10;
     health += 10;
     goldText.innerText = gold;
+    updateHealthDisplay();
     healthText.innerText = health;
   } else {
     text.innerText = "You do not have enough gold to buy health.";
+  }
+}
+
+function updateHealthDisplay (){
+  healthText.innerText = health;
+  if (health <= 10){
+    healthText.style.color = "red";
+  }
+  else{
+    healthText.style.color = "black";
   }
 }
 
@@ -210,6 +221,7 @@ function attack() {
     text.innerText += " You miss."
   };
   healthText.innerText = health;
+  updateHealthDisplay();
   monsterHealthText.innerText = monsterHealth;
   if (health <= 0){
     lose(); 
@@ -225,7 +237,7 @@ function attack() {
   if(Math.random() <= .1 && inventory.length !== 1){
     text.innerText += " Your " + inventory.pop() + " breaks.";
     currentWeaponIndex--;
-  }
+  };
 }
 function getMonsterAttackValue(level) {
   const hit = (level * 5) - (Math.floor(Math.random() * xp));
@@ -258,6 +270,7 @@ function restart(){
   currentWeaponIndex = 0;
   inventory = ["stick"];
   goldText.innerText = gold;
+  updateHealthDisplay();
   healthText.innerText = health;
   xpText.innerText = xp;
   goTown();
@@ -288,6 +301,7 @@ function pick (guess){
   else{
     text.innerText += "Wrong! You lose 10 health!";
     health -= 10;
+    updateHealthDisplay();
     healthText.innerText = health;
     if(health <= 0){
       lose();
